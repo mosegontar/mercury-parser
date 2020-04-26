@@ -8,6 +8,8 @@ const {
   _: [url],
   format,
   f,
+  markdownOptions,
+  m,
   extend,
   e,
   extendList,
@@ -20,6 +22,7 @@ const {
 (async (
   urlToParse,
   contentType,
+  markdownOptions,
   extendedTypes,
   extendedListTypes,
   headers,
@@ -72,6 +75,7 @@ Usage:\n\
 
     const result = await Mercury.parse(urlToParse, {
       contentType: contentTypeMap[contentType],
+      markdownOptions,
       extend: extensions,
       headers,
       customExtractor,
@@ -96,6 +100,7 @@ Usage:\n\
 })(
   url,
   format || f,
+  markdownOptions || m,
   extend || e,
   extendList || l,
   header || h,

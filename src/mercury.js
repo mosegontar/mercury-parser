@@ -15,6 +15,7 @@ const Mercury = {
       fetchAllPages = true,
       fallback = true,
       contentType = 'html',
+      markdownOptions = {},
       headers = {},
       extend,
       customExtractor,
@@ -103,7 +104,7 @@ const Mercury = {
     }
 
     if (contentType === 'markdown') {
-      const turndownService = new TurndownService();
+      const turndownService = new TurndownService(markdownOptions);
       result.content = turndownService.turndown(result.content);
     } else if (contentType === 'text') {
       result.content = $.text($(result.content));

@@ -1888,13 +1888,13 @@ var TwitterExtractor = {
 var NYTimesExtractor = {
   domain: 'www.nytimes.com',
   title: {
-    selectors: ['h1.g-headline', 'h1[itemprop="headline"]', 'h1.headline']
+    selectors: ['h1.g-headline', 'h1[itemprop="headline"]', 'h1.headline', 'h1 .balancedHeadline']
   },
   author: {
-    selectors: [['meta[name="author"]', 'value'], '.g-byline', '.byline']
+    selectors: [['meta[name="author"]', 'value'], '.g-byline', '.byline', ['meta[name="byl"]', 'value']]
   },
   content: {
-    selectors: ['div.g-blocks', 'article#story'],
+    selectors: ['div.g-blocks', 'section[name="articleBody"]', 'article#story'],
     transforms: {
       'img.g-lazy': function imgGLazy($node) {
         var src = $node.attr('src');
@@ -7605,6 +7605,8 @@ var Mercury = {
           fallback,
           _opts$contentType,
           contentType,
+          _opts$markdownOptions,
+          markdownOptions,
           _opts$headers,
           headers,
           extend,
@@ -7626,7 +7628,7 @@ var Mercury = {
           switch (_context.prev = _context.next) {
             case 0:
               _ref = _args.length > 1 && _args[1] !== undefined ? _args[1] : {}, html = _ref.html, opts = _objectWithoutProperties(_ref, ["html"]);
-              _opts$fetchAllPages = opts.fetchAllPages, fetchAllPages = _opts$fetchAllPages === void 0 ? true : _opts$fetchAllPages, _opts$fallback = opts.fallback, fallback = _opts$fallback === void 0 ? true : _opts$fallback, _opts$contentType = opts.contentType, contentType = _opts$contentType === void 0 ? 'html' : _opts$contentType, _opts$headers = opts.headers, headers = _opts$headers === void 0 ? {} : _opts$headers, extend = opts.extend, customExtractor = opts.customExtractor; // if no url was passed and this is the browser version,
+              _opts$fetchAllPages = opts.fetchAllPages, fetchAllPages = _opts$fetchAllPages === void 0 ? true : _opts$fetchAllPages, _opts$fallback = opts.fallback, fallback = _opts$fallback === void 0 ? true : _opts$fallback, _opts$contentType = opts.contentType, contentType = _opts$contentType === void 0 ? 'html' : _opts$contentType, _opts$markdownOptions = opts.markdownOptions, markdownOptions = _opts$markdownOptions === void 0 ? {} : _opts$markdownOptions, _opts$headers = opts.headers, headers = _opts$headers === void 0 ? {} : _opts$headers, extend = opts.extend, customExtractor = opts.customExtractor; // if no url was passed and this is the browser version,
               // set url to window.location.href and load the html
               // from the current page
 
@@ -7732,7 +7734,7 @@ var Mercury = {
 
             case 26:
               if (contentType === 'markdown') {
-                turndownService = new TurndownService();
+                turndownService = new TurndownService(markdownOptions);
                 result.content = turndownService.turndown(result.content);
               } else if (contentType === 'text') {
                 result.content = $.text($(result.content));
